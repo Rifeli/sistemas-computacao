@@ -37,6 +37,7 @@ void execute(int i){
 int main(){
     int i, bigPrio, priorities[4], pid[4], verify[4] = {0,0,0,0};
     FILE * entrada;
+    char * argv[] = {NULL, NULL};
     FILE * saida;
     char command[5];
     char nomePrograma[10][10];
@@ -52,14 +53,14 @@ int main(){
     }
     
     
-        while((priorities[0] != 7)||(priorities[1] != 7)||(priorities[2] != 7)||(priorities[3] != 7)){
+        while(1){
             
             bigPrio = compare(priorities);
             if(verify[bigPrio] == 0){
                 fprintf(saida, "Executando o programa %d... \n", bigPrio);
                 pid[bigPrio] = fork();
                 if(pid[bigPrio] == 0){
-                    execute(bigPrio);
+                    execve(nomePrograma[bigPrio][0], argv, NULL);
                 }
                 sleep(1);
                 kill(pid[bigPrio], SIGSTOP);
